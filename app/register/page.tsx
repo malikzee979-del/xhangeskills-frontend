@@ -24,7 +24,7 @@ export default function RegisterPage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
@@ -55,15 +55,21 @@ export default function RegisterPage() {
 
     if (step === 1) {
       const err = validateStep1();
-      if (err) { setError(err); return; }
+      if (err) {
+        setError(err);
+        return;
+      }
       setStep(2);
     } else {
       const err = validateStep2();
-      if (err) { setError(err); return; }
+      if (err) {
+        setError(err);
+        return;
+      }
 
       try {
         setIsLoading(true);
-        
+
         // Extract first and last name from full name
         const nameParts = formData.name.split(' ');
         const firstName = nameParts[0];
@@ -88,49 +94,59 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-950 flex items-center justify-center p-4">
-      <div className="relative w-full max-w-md">
-        {/* Registration Card */}
-        <div className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-2xl p-8 border border-white/20">
+    <div className="auth-scene">
+      <span className="auth-blob" aria-hidden="true" />
+      <span className="auth-grain" aria-hidden="true" />
+
+      <div className="auth-card reveal">
+        <div className="auth-panel">
           {/* Header */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-30 h-20 mb-4 shadow-lg">
-              <img src="/logo.jfif" alt="Logo" />
+          <div className="mb-8 text-center">
+            <div className="brand-mark mx-auto mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl overflow-hidden">
+              <img src="/logo.jfif" alt="XchangeSkills" className="h-full w-full object-cover" />
             </div>
-            <h1 className="text-3xl font-bold text-white mb-2">Join XchangeSkills</h1>
-            <p className="text-indigo-400">Create your account and start exchanging skills</p>
+            <h1 className="auth-title mb-2 text-3xl font-bold">Join XchangeSkills</h1>
+            <p className="auth-sub">Create your account and start exchanging skills</p>
           </div>
 
           {/* Progress Steps */}
-          <div className="flex items-center justify-center gap-2 mb-8">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition ${step >= 1 ? 'bg-gradient-to-br from-indigo-400 to-indigo-500 text-white shadow-lg' : 'bg-white/20 text-white/60'}`}>
+          <div className="mb-8 flex items-center justify-center gap-2">
+            <div
+              className={`flex h-10 w-10 items-center justify-center rounded-full font-semibold transition ${
+                step >= 1 ? 'brand-mark text-on-accent' : 'bg-white/20 text-white/60'
+              }`}
+            >
               1
             </div>
-            <div className={`flex-1 h-1 rounded transition ${step >= 2 ? 'bg-gradient-to-r from-indigo-500 to-indigo-400' : 'bg-white/20'}`}></div>
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition ${step >= 2 ? 'bg-gradient-to-br from-indigo-400 to-indigo-500 text-white shadow-lg' : 'bg-white/20 text-white/60'}`}>
+            <div className={`h-1 flex-1 rounded transition ${step >= 2 ? 'brand-mark' : 'bg-white/20'}`} />
+            <div
+              className={`flex h-10 w-10 items-center justify-center rounded-full font-semibold transition ${
+                step >= 2 ? 'brand-mark text-on-accent' : 'bg-white/20 text-white/60'
+              }`}
+            >
               2
             </div>
           </div>
 
           {/* Error Alert */}
           {error && (
-            <div className="mb-6 p-4 bg-red-500/20 border border-red-500/50 rounded-lg flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-              <p className="text-red-200 text-sm">{error}</p>
+            <div className="mb-6 flex items-start gap-3 rounded-xl border border-red-400/40 bg-red-500/15 p-4">
+              <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-300" />
+              <p className="text-sm text-red-100">{error}</p>
             </div>
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5 auth-input">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {step === 1 ? (
               <>
                 {/* Name Field */}
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
+                  <label htmlFor="name" className="auth-title mb-2 block text-sm font-medium">
                     Full Name
                   </label>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-indigo-300" />
+                    <User className="auth-sub pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2" />
                     <input
                       type="text"
                       id="name"
@@ -138,7 +154,7 @@ export default function RegisterPage() {
                       value={formData.name}
                       onChange={handleChange}
                       placeholder="John Doe"
-                      className="w-full pl-10 pr-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-transparent transition"
+                      className="auth-field py-3 pl-10 pr-4"
                       required
                     />
                   </div>
@@ -146,11 +162,11 @@ export default function RegisterPage() {
 
                 {/* Email Field */}
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
+                  <label htmlFor="email" className="auth-title mb-2 block text-sm font-medium">
                     Email Address
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-indigo-300" />
+                    <Mail className="auth-sub pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2" />
                     <input
                       type="email"
                       id="email"
@@ -158,7 +174,7 @@ export default function RegisterPage() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="you@example.com"
-                      className="w-full pl-10 pr-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"
+                      className="auth-field py-3 pl-10 pr-4"
                       required
                     />
                   </div>
@@ -168,11 +184,11 @@ export default function RegisterPage() {
               <>
                 {/* Password Field */}
                 <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-white mb-2">
+                  <label htmlFor="password" className="auth-title mb-2 block text-sm font-medium">
                     Password
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-indigo-300" />
+                    <Lock className="auth-sub pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2" />
                     <input
                       type={showPassword ? 'text' : 'password'}
                       id="password"
@@ -180,31 +196,27 @@ export default function RegisterPage() {
                       value={formData.password}
                       onChange={handleChange}
                       placeholder="••••••••"
-                      className="w-full pl-10 pr-12 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"
+                      className="auth-field py-3 pl-10 pr-12"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-indigo-300 hover:text-white transition"
+                      className="auth-sub absolute right-3 top-1/2 -translate-y-1/2 transition hover:opacity-80"
                     >
-                      {showPassword ? (
-                        <EyeOff className="w-5 h-5" />
-                      ) : (
-                        <Eye className="w-5 h-5" />
-                      )}
+                      {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>
                   </div>
-                  <p className="text-xs text-white/60 mt-2">At least 8 characters with uppercase, lowercase, and numbers</p>
+                  <p className="auth-sub mt-2 text-xs">At least 8 characters with uppercase, lowercase, and numbers</p>
                 </div>
 
                 {/* Confirm Password Field */}
                 <div>
-                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-white mb-2">
+                  <label htmlFor="confirmPassword" className="auth-title mb-2 block text-sm font-medium">
                     Confirm Password
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-indigo-300" />
+                    <Lock className="auth-sub pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2" />
                     <input
                       type={showConfirmPassword ? 'text' : 'password'}
                       id="confirmPassword"
@@ -212,35 +224,37 @@ export default function RegisterPage() {
                       value={formData.confirmPassword}
                       onChange={handleChange}
                       placeholder="••••••••"
-                      className="w-full pl-10 pr-12 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent transition"
+                      className="auth-field py-3 pl-10 pr-12"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-indigo-300 hover:text-white transition"
+                      className="auth-sub absolute right-3 top-1/2 -translate-y-1/2 transition hover:opacity-80"
                     >
-                      {showConfirmPassword ? (
-                        <EyeOff className="w-5 h-5" />
-                      ) : (
-                        <Eye className="w-5 h-5" />
-                      )}
+                      {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>
                   </div>
                 </div>
 
                 {/* Terms & Conditions */}
-                <label className="flex items-start text-white/80 hover:text-white cursor-pointer transition">
+                <label className="auth-sub flex cursor-pointer items-start transition hover:opacity-90">
                   <input
                     type="checkbox"
                     name="agreedToTerms"
                     checked={formData.agreedToTerms}
                     onChange={handleChange}
-                    className="w-4 h-4 mt-1 rounded bg-white/20 border-white/30 text-indigo-500 focus:ring-indigo-400"
+                    className="mt-1 h-4 w-4 rounded accent-[var(--accent)]"
                   />
                   <span className="ml-2 text-sm">
-                    I agree to the <Link href="#" className="text-indigo-400 hover:text-indigo-300 underline">Terms & Conditions</Link> and{' '}
-                    <Link href="#" className="text-indigo-400 hover:text-indigo-300 underline">Privacy Policy</Link>
+                    I agree to the{' '}
+                    <Link href="#" className="text-accent-2 underline transition hover:opacity-90">
+                      Terms &amp; Conditions
+                    </Link>{' '}
+                    and{' '}
+                    <Link href="#" className="text-accent-2 underline transition hover:opacity-90">
+                      Privacy Policy
+                    </Link>
                   </span>
                 </label>
               </>
@@ -252,7 +266,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="flex-1 py-3 px-4 bg-white/20 border border-white/30 text-white font-semibold rounded-lg hover:bg-white/30 transition duration-300"
+                  className="btn flex-1 border border-white/30 bg-white/15 py-3 px-4 text-white hover:bg-white/25"
                 >
                   Back
                 </button>
@@ -260,11 +274,11 @@ export default function RegisterPage() {
               <button
                 type="submit"
                 disabled={isLoading || (step === 2 && !formData.agreedToTerms)}
-                className={`${step === 2 ? 'flex-1' : 'w-full'} py-3 px-4 bg-gradient-to-r from-indigo-400 to-indigo-500 text-white font-semibold rounded-lg hover:from-indigo-600 hover:to-indigo-700 transition duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed`}
+                className={`btn btn-primary ${step === 2 ? 'flex-1' : 'w-full'} py-3 px-4`}
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center">
-                    <span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"></span>
+                    <span className="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
                     Creating account...
                   </span>
                 ) : step === 1 ? (
@@ -277,16 +291,16 @@ export default function RegisterPage() {
           </form>
 
           {/* Sign In Link */}
-          <p className="text-center mt-6 text-white/80">
+          <p className="auth-sub mt-6 text-center">
             Already have an account?{' '}
-            <Link href="/login" className="font-semibold text-indigo-400 hover:text-indigo-300 transition">
+            <Link href="/login" className="font-semibold text-accent-2 transition hover:opacity-90">
               Sign in here
             </Link>
           </p>
         </div>
 
         {/* Bottom accent */}
-        <div className="mt-8 text-center text-indigo-400 text-sm">
+        <div className="auth-sub mt-8 text-center text-sm">
           <p>Join thousands of skill exchangers worldwide</p>
         </div>
       </div>

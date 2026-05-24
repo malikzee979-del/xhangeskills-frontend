@@ -31,7 +31,7 @@ export default function LoginPage() {
     if (name === 'rememberMe') {
       setRememberMe(checked);
     } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
@@ -47,7 +47,10 @@ export default function LoginPage() {
     e.preventDefault();
     setError(null);
     const validationError = validate();
-    if (validationError) { setError(validationError); return; }
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
     try {
       await login(formData.email, formData.password, rememberMe);
       // Redirect is handled by useEffect watching isAuthenticated state
@@ -58,35 +61,37 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-950 flex items-center justify-center p-4">
-      <div className="relative w-full max-w-md">
-        {/* Login Card */}
-        <div className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-2xl p-8 border border-white/20">
+    <div className="auth-scene">
+      <span className="auth-blob" aria-hidden="true" />
+      <span className="auth-grain" aria-hidden="true" />
+
+      <div className="auth-card reveal">
+        <div className="auth-panel">
           {/* Header */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-30 h-20 mb-4 shadow-lg">
-              <img src="/logo.jfif" alt="Logo" />
+          <div className="mb-8 text-center">
+            <div className="brand-mark mx-auto mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl overflow-hidden">
+              <img src="/logo.jfif" alt="XchangeSkills" className="h-full w-full object-cover" />
             </div>
-            <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-            <p className="text-blue-100">Sign in to your account</p>
+            <h1 className="auth-title mb-2 text-3xl font-bold">Welcome back</h1>
+            <p className="auth-sub">Sign in to your account</p>
           </div>
 
           {/* Error Message */}
           {error && (
-            <div className="mb-4 p-4 bg-red-500/20 border border-red-500/50 rounded-lg text-red-200 text-sm">
+            <div className="mb-4 rounded-xl border border-red-400/40 bg-red-500/15 p-4 text-sm text-red-100">
               {error}
             </div>
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5 auth-input">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email Field */}
             <div className="relative">
-              <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
+              <label htmlFor="email" className="auth-title mb-2 block text-sm font-medium">
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-blue-300" />
+                <Mail className="auth-sub pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2" />
                 <input
                   type="email"
                   id="email"
@@ -94,7 +99,7 @@ export default function LoginPage() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="you@example.com"
-                  className="w-full pl-10 pr-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"
+                  className="auth-field py-3 pl-10 pr-4"
                   required
                   disabled={loading}
                 />
@@ -103,11 +108,11 @@ export default function LoginPage() {
 
             {/* Password Field */}
             <div className="relative">
-              <label htmlFor="password" className="block text-sm font-medium text-white mb-2">
+              <label htmlFor="password" className="auth-title mb-2 block text-sm font-medium">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-blue-300" />
+                <Lock className="auth-sub pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="password"
@@ -115,52 +120,44 @@ export default function LoginPage() {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-12 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"
+                  className="auth-field py-3 pl-10 pr-12"
                   required
                   disabled={loading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-200 hover:text-white transition"
+                  className="auth-sub absolute right-3 top-1/2 -translate-y-1/2 transition hover:opacity-80"
                   disabled={loading}
                 >
-                  {showPassword ? (
-                    <EyeOff className="w-5 h-5" />
-                  ) : (
-                    <Eye className="w-5 h-5" />
-                  )}
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
               </div>
             </div>
 
             {/* Remember Me & Forgot Password */}
             <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center text-white/80 hover:text-white cursor-pointer transition">
+              <label className="auth-sub flex cursor-pointer items-center transition hover:opacity-90">
                 <input
                   type="checkbox"
                   name="rememberMe"
                   checked={rememberMe}
                   onChange={handleChange}
-                  className="w-4 h-4 rounded bg-white/20 border-white/30 text-blue-500 focus:ring-blue-400 cursor-pointer"
+                  className="h-4 w-4 cursor-pointer rounded accent-[var(--accent)]"
                   disabled={loading}
                 />
                 <span className="ml-2">Remember me</span>
               </label>
-              <Link href="/forgot-password" className="text-white/80 hover:text-white transition">
+              <Link href="/forgot-password" className="auth-sub transition hover:opacity-90">
                 Forgot password?
               </Link>
             </div>
 
             {/* Login Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 px-4 bg-gradient-to-r from-indigo-400 to-indigo-500 text-white font-semibold rounded-lg hover:from-indigo-700 hover:to-indigo-800 transition duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed mt-6"
-            >
+            <button type="submit" disabled={loading} className="btn btn-primary mt-6 w-full py-3 px-4">
               {loading ? (
                 <span className="flex items-center justify-center">
-                  <span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"></span>
+                  <span className="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
                   Signing in...
                 </span>
               ) : (
@@ -170,16 +167,16 @@ export default function LoginPage() {
           </form>
 
           {/* Sign Up Link */}
-          <p className="text-center mt-6 text-white/80">
-            Don't have an account?{' '}
-            <Link href="/register" className="font-semibold text-indigo-400 hover:text-indigo-300 transition">
+          <p className="auth-sub mt-6 text-center">
+            Don&apos;t have an account?{' '}
+            <Link href="/register" className="font-semibold text-accent-2 transition hover:opacity-90">
               Sign up now
             </Link>
           </p>
         </div>
 
         {/* Bottom accent */}
-        <div className="mt-8 text-center text-blue-100 text-sm">
+        <div className="auth-sub mt-8 text-center text-sm">
           <p>Secure authentication powered by XchangeSkills</p>
         </div>
       </div>

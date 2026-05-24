@@ -26,10 +26,10 @@ export default function DashboardLayout({
   // Show loading state while checking authentication
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-bg">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
+          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-accent" />
+          <p className="text-muted">Loading...</p>
         </div>
       </div>
     );
@@ -41,7 +41,7 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-bg">
       {/* Header */}
       <Header />
 
@@ -52,9 +52,7 @@ export default function DashboardLayout({
 
         {/* Main Content */}
         <main className="ml-64 flex-1 overflow-y-auto">
-          <div className="p-8">
-            {children}
-          </div>
+          <div className="p-8">{children}</div>
           {/* Footer at bottom */}
           <Footer />
         </main>

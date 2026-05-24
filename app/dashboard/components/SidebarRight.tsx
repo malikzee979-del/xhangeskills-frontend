@@ -6,15 +6,15 @@ import { CheckCircle, AlertCircle, MessageSquare, Info, Loader } from 'lucide-re
 import { activityApi, ActivityItem } from '@/services/activityApi';
 
 const iconMap = {
-  success: { Icon: CheckCircle, color: 'text-blue-600',   bg: 'bg-blue-50   border-blue-200'   },
-  warning: { Icon: AlertCircle, color: 'text-orange-600', bg: 'bg-orange-50 border-orange-200' },
-  info:    { Icon: Info,         color: 'text-gray-600',   bg: 'bg-gray-50   border-gray-200'   },
-  message: { Icon: MessageSquare,color: 'text-emerald-600',bg: 'bg-emerald-50 border-emerald-200'},
+  success: { Icon: CheckCircle, color: 'text-success', bg: 'bg-success-soft border-success/30' },
+  warning: { Icon: AlertCircle, color: 'text-warning', bg: 'bg-warning-soft border-warning/30' },
+  info: { Icon: Info, color: 'text-muted', bg: 'bg-surface-2 border-line' },
+  message: { Icon: MessageSquare, color: 'text-accent-2', bg: 'bg-accent-2-soft border-accent-2/30' },
 } as const;
 
 function relativeTime(iso: string) {
   const m = Math.round((Date.now() - new Date(iso).getTime()) / 60_000);
-  if (m < 1)  return 'just now';
+  if (m < 1) return 'just now';
   if (m < 60) return `${m}m ago`;
   const h = Math.round(m / 60);
   if (h < 24) return `${h}h ago`;
@@ -23,13 +23,17 @@ function relativeTime(iso: string) {
 
 export default function SidebarRight() {
   const [activity, setActivity] = useState<ActivityItem[]>([]);
-  const [loading, setLoading]   = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
-    const uid = typeof window !== 'undefined'
-      ? localStorage.getItem('userId') || sessionStorage.getItem('userId')
-      : null;
-    if (!uid) { setLoading(false); return; }
+    const uid =
+      typeof window !== 'undefined'
+        ? localStorage.getItem('userId') || sessionStorage.getItem('userId')
+        : null;
+    if (!uid) {
+      setLoading(false);
+      return;
+    }
     try {
       const feed = await activityApi.getActivityFeed(uid);
       setActivity(feed.slice(0, 5));
@@ -40,22 +44,23 @@ export default function SidebarRight() {
     }
   }, []);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    load();
+  }, [load]);
 
-  const pendingCount  = activity.filter((a) => a.type === 'warning').length;
-  const reviewCount   = activity.filter((a) => a.type === 'success').length;
-  const messageCount  = activity.filter((a) => a.type === 'message').length;
-  const unreadCount   = activity.filter((a) => !a.isRead).length;
+  const pendingCount = activity.filter((a) => a.type === 'warning').length;
+  const reviewCount = activity.filter((a) => a.type === 'success').length;
+  const messageCount = activity.filter((a) => a.type === 'message').length;
+  const unreadCount = activity.filter((a) => !a.isRead).length;
 
   return (
-    <aside className="w-72 shrink-0 bg-white border-l border-gray-200 overflow-y-auto p-6 space-y-6 self-start sticky top-16 h-[calc(100vh-4rem)]">
-
+    <aside className="sticky top-16 h-[calc(100vh-4rem)] w-72 shrink-0 self-start space-y-6 overflow-y-auto border-l border-line bg-surface p-6">
       {/* Recent Activity */}
       <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900">Recent Activity</h2>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-content">Recent Activity</h2>
           {unreadCount > 0 && (
-            <span className="text-xs bg-orange-100 text-orange-700 font-semibold px-2 py-0.5 rounded-full">
+            <span className="badge bg-warning-soft px-2 py-0.5 text-xs font-semibold text-warning">
               {unreadCount} new
             </span>
           )}
@@ -63,10 +68,10 @@ export default function SidebarRight() {
 
         {loading ? (
           <div className="flex justify-center py-6">
-            <Loader className="w-5 h-5 animate-spin text-blue-400" />
+            <Loader className="h-5 w-5 animate-spin text-accent" />
           </div>
         ) : activity.length === 0 ? (
-          <p className="text-sm text-gray-500 text-center py-4">No recent activity</p>
+          <p className="py-4 text-center text-sm text-muted">No recent activity</p>
         ) : (
           <div className="space-y-3">
             {activity.map((item) => {
@@ -75,16 +80,18 @@ export default function SidebarRight() {
                 <a
                   key={item.id}
                   href={item.actionLink || '#'}
-                  className={`block p-3 rounded-lg border transition hover:opacity-90 ${bg} ${!item.isRead ? 'ring-1 ring-blue-300' : ''}`}
+                  className={`block rounded-xl border p-3 transition hover:opacity-90 ${bg} ${
+                    !item.isRead ? 'ring-1 ring-accent/40' : ''
+                  }`}
                 >
                   <div className="flex items-start gap-3">
-                    <Icon className={`w-4 h-4 flex-shrink-0 mt-0.5 ${color}`} />
-                    <div className="flex-1 min-w-0">
-                      <p className={`text-sm text-gray-900 truncate ${!item.isRead ? 'font-semibold' : ''}`}>
+                    <Icon className={`mt-0.5 h-4 w-4 flex-shrink-0 ${color}`} />
+                    <div className="min-w-0 flex-1">
+                      <p className={`truncate text-sm text-content ${!item.isRead ? 'font-semibold' : ''}`}>
                         {item.title}
                       </p>
-                      <p className="text-xs text-gray-600 mt-0.5 line-clamp-2">{item.message}</p>
-                      <p className="text-xs text-gray-400 mt-1">{relativeTime(item.createdAt)}</p>
+                      <p className="mt-0.5 line-clamp-2 text-xs text-muted">{item.message}</p>
+                      <p className="mt-1 text-xs text-subtle">{relativeTime(item.createdAt)}</p>
                     </div>
                   </div>
                 </a>
@@ -96,43 +103,43 @@ export default function SidebarRight() {
         {!loading && activity.length > 0 && (
           <Link
             href="/dashboard/notifications"
-            className="block mt-3 text-center text-xs text-blue-600 hover:text-blue-700 font-semibold"
+            className="mt-3 block text-center text-xs font-semibold text-accent hover:opacity-80"
           >
             View all →
           </Link>
         )}
       </div>
 
-      <div className="border-t border-gray-200" />
+      <div className="border-t border-line" />
 
       {/* Notification Summary */}
       <div>
-        <h3 className="font-semibold text-gray-900 mb-3">Summary</h3>
-        <div className="bg-gray-50 p-3 rounded-lg space-y-2">
+        <h3 className="mb-3 font-semibold text-content">Summary</h3>
+        <div className="space-y-2 rounded-xl bg-surface-2 p-3">
           <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-700 flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 text-orange-500" />
+            <p className="flex items-center gap-2 text-sm text-muted">
+              <AlertCircle className="h-4 w-4 text-warning" />
               Pending requests
             </p>
-            <span className={`text-sm font-bold ${pendingCount > 0 ? 'text-orange-600' : 'text-gray-400'}`}>
+            <span className={`text-sm font-bold ${pendingCount > 0 ? 'text-warning' : 'text-subtle'}`}>
               {pendingCount}
             </span>
           </div>
           <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-700 flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-blue-500" />
+            <p className="flex items-center gap-2 text-sm text-muted">
+              <CheckCircle className="h-4 w-4 text-accent" />
               New reviews
             </p>
-            <span className={`text-sm font-bold ${reviewCount > 0 ? 'text-blue-600' : 'text-gray-400'}`}>
+            <span className={`text-sm font-bold ${reviewCount > 0 ? 'text-accent' : 'text-subtle'}`}>
               {reviewCount}
             </span>
           </div>
           <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-700 flex items-center gap-2">
-              <MessageSquare className="w-4 h-4 text-emerald-500" />
+            <p className="flex items-center gap-2 text-sm text-muted">
+              <MessageSquare className="h-4 w-4 text-accent-2" />
               Messages
             </p>
-            <span className={`text-sm font-bold ${messageCount > 0 ? 'text-emerald-600' : 'text-gray-400'}`}>
+            <span className={`text-sm font-bold ${messageCount > 0 ? 'text-accent-2' : 'text-subtle'}`}>
               {messageCount}
             </span>
           </div>
@@ -141,18 +148,18 @@ export default function SidebarRight() {
 
       {/* Quick Links */}
       <div>
-        <h3 className="font-semibold text-gray-900 mb-3">Quick Links</h3>
+        <h3 className="mb-3 font-semibold text-content">Quick Links</h3>
         <div className="space-y-1">
           {[
-            { href: '/dashboard/requests',     label: 'Skill Requests' },
-            { href: '/dashboard/reviews',       label: 'My Reviews'    },
-            { href: '/dashboard/chat',          label: 'Messages'      },
+            { href: '/dashboard/requests', label: 'Skill Requests' },
+            { href: '/dashboard/reviews', label: 'My Reviews' },
+            { href: '/dashboard/chat', label: 'Messages' },
             { href: '/dashboard/notifications', label: 'Notifications' },
           ].map(({ href, label }) => (
             <Link
               key={href}
               href={href}
-              className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition"
+              className="block rounded-lg px-3 py-2 text-sm text-muted transition hover:bg-surface-2 hover:text-content"
             >
               {label}
             </Link>

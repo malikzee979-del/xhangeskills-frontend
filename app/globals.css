@@ -1,41 +1,1065 @@
 @import "tailwindcss";
 
+/* ============================================================
+   XchangeSkills — Premium Theme System
+   ------------------------------------------------------------
+   All colors are driven by CSS custom properties (design tokens).
+   A theme is applied by setting data-theme="<id>" on <html>.
+   Every component reads tokens via the Tailwind theme mapping
+   below (e.g. bg-surface, text-accent, border-line ...).
+   NOTE: only theming/visuals here — no API or behavior changes.
+   ============================================================ */
+
+/* ---------- Base tokens (defaults = "atelier" cream + gold editorial) ---------- */
 :root {
-  --background: #ffffff;
-  --foreground: #111827;
+  /* Core surfaces */
+  --bg: #f4efe6;
+  --bg-elevated: #fdfaf4;
+  --surface: #fdfaf4;
+  --surface-2: #f0e8da;
+  --surface-3: #e6dac6;
+  --overlay: rgba(58, 46, 30, 0.42);
+
+  /* Text */
+  --text: #2c2418;
+  --text-muted: #6f6353;
+  --text-subtle: #a1937e;
+  --text-on-accent: #fffaf2;
+
+  /* Lines / borders */
+  --line: #e7dccb;
+  --line-strong: #d2c3a9;
+
+  /* Brand / accent ramp — antique gold */
+  --accent: #a8842c;
+  --accent-hover: #8c6d20;
+  --accent-soft: #f3e8cf;
+  --accent-contrast: #fffaf2;
+
+  /* Secondary accent (gradients, highlights) — warm bronze */
+  --accent-2: #b06a3a;
+  --accent-2-soft: #f5e3d4;
+
+  /* Semantic */
+  --success: #5a7d3c;
+  --success-soft: #edf2e1;
+  --warning: #c2870b;
+  --warning-soft: #f9efd5;
+  --danger: #b13f33;
+  --danger-soft: #f7e3df;
+  --info: #4a6d7c;
+  --info-soft: #e6eef1;
+
+  /* Status palette (badges) */
+  --status-pending: #c2870b;
+  --status-pending-soft: #f9efd5;
+  --status-accepted: #5a7d3c;
+  --status-accepted-soft: #edf2e1;
+  --status-rejected: #b13f33;
+  --status-rejected-soft: #f7e3df;
+  --status-completed: #4a6d7c;
+  --status-completed-soft: #e6eef1;
+
+  /* Effects */
+  --ring: rgba(168, 132, 44, 0.32);
+  --shadow-color: 34 40% 22%;
+  --shadow-sm: 0 1px 2px hsl(var(--shadow-color) / 0.06), 0 1px 3px hsl(var(--shadow-color) / 0.08);
+  --shadow-md: 0 4px 14px hsl(var(--shadow-color) / 0.10), 0 2px 6px hsl(var(--shadow-color) / 0.06);
+  --shadow-lg: 0 18px 40px hsl(var(--shadow-color) / 0.16), 0 6px 14px hsl(var(--shadow-color) / 0.08);
+  --shadow-glow: 0 0 0 1px var(--accent-soft), 0 12px 30px var(--ring);
+
+  /* Auth scene background (used by login/register/reset) */
+  --auth-bg-1: #3a2e1c;
+  --auth-bg-2: #1c1610;
+  --auth-blob-1: #c9a44e;
+  --auth-blob-2: #b06a3a;
+  --auth-blob-3: #8c6d20;
+  --auth-card: rgba(255, 255, 255, 0.08);
+  --auth-card-border: rgba(255, 250, 242, 0.16);
+  --auth-text: #fdfaf4;
+  --auth-text-muted: #e6dac6;
+
+  /* Decorative gradient meshes */
+  --mesh-1: radial-gradient(1200px 600px at 100% -10%, var(--accent-soft), transparent 60%),
+            radial-gradient(900px 500px at -10% 110%, var(--accent-2-soft), transparent 55%);
+
+  /* Radii + typography */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  --font-display: var(--font-display-family, "Fraunces"), ui-serif, Georgia, "Times New Roman", serif;
+  --font-body: var(--font-body-family, "Plus Jakarta Sans"), ui-sans-serif, system-ui, sans-serif;
+
+  color-scheme: light;
 }
 
+/* =====================================================================
+   THEME: Atelier (default) — cream + antique gold, editorial luxe
+   Refs: cream/gold Squarespace template, Golden Glow palette
+   ===================================================================== */
+[data-theme="atelier"] {
+  color-scheme: light;
+  --bg: #f4efe6;
+  --bg-elevated: #fdfaf4;
+  --surface: #fdfaf4;
+  --surface-2: #f0e8da;
+  --surface-3: #e6dac6;
+  --overlay: rgba(58, 46, 30, 0.42);
+  --text: #2c2418;
+  --text-muted: #6f6353;
+  --text-subtle: #a1937e;
+  --text-on-accent: #fffaf2;
+  --line: #e7dccb;
+  --line-strong: #d2c3a9;
+  --accent: #a8842c;
+  --accent-hover: #8c6d20;
+  --accent-soft: #f3e8cf;
+  --accent-2: #b06a3a;
+  --accent-2-soft: #f5e3d4;
+  --success: #5a7d3c;
+  --success-soft: #edf2e1;
+  --warning: #c2870b;
+  --warning-soft: #f9efd5;
+  --danger: #b13f33;
+  --danger-soft: #f7e3df;
+  --info: #4a6d7c;
+  --info-soft: #e6eef1;
+  --status-pending: #c2870b;
+  --status-pending-soft: #f9efd5;
+  --status-accepted: #5a7d3c;
+  --status-accepted-soft: #edf2e1;
+  --status-rejected: #b13f33;
+  --status-rejected-soft: #f7e3df;
+  --status-completed: #4a6d7c;
+  --status-completed-soft: #e6eef1;
+  --ring: rgba(168, 132, 44, 0.32);
+  --shadow-color: 34 40% 22%;
+  --auth-bg-1: #3a2e1c;
+  --auth-bg-2: #1c1610;
+  --auth-blob-1: #c9a44e;
+  --auth-blob-2: #b06a3a;
+  --auth-blob-3: #8c6d20;
+}
+
+/* =====================================================================
+   THEME: Crane — deep navy + warm tan, dark paper-art elegance
+   Ref: crane paper-art palette (071739 / 4B6382 / A68868 / E3C39D)
+   ===================================================================== */
+[data-theme="crane"] {
+  color-scheme: dark;
+  --bg: #050b1a;
+  --bg-elevated: #0a1226;
+  --surface: #0c1630;
+  --surface-2: #14213f;
+  --surface-3: #1d2e52;
+  --overlay: rgba(2, 6, 18, 0.62);
+  --text: #e8edf6;
+  --text-muted: #a4b5c4;
+  --text-subtle: #6a7e93;
+  --text-on-accent: #071739;
+  --line: #1c2a4a;
+  --line-strong: #2c3e63;
+  --accent: #e3c39d;
+  --accent-hover: #d4ad80;
+  --accent-soft: #1a2444;
+  --accent-2: #a4b5c4;
+  --accent-2-soft: #16233f;
+  --success: #6bbf8a;
+  --success-soft: #0f2a1d;
+  --warning: #e3c39d;
+  --warning-soft: #2a2113;
+  --danger: #e88a7d;
+  --danger-soft: #2c1512;
+  --info: #7fa6c9;
+  --info-soft: #112236;
+  --status-pending: #e3c39d;
+  --status-pending-soft: #2a2113;
+  --status-accepted: #6bbf8a;
+  --status-accepted-soft: #0f2a1d;
+  --status-rejected: #e88a7d;
+  --status-rejected-soft: #2c1512;
+  --status-completed: #7fa6c9;
+  --status-completed-soft: #112236;
+  --ring: rgba(227, 195, 157, 0.38);
+  --shadow-color: 222 70% 2%;
+  --shadow-sm: 0 1px 2px hsl(var(--shadow-color) / 0.5), 0 1px 3px hsl(var(--shadow-color) / 0.6);
+  --shadow-md: 0 6px 18px hsl(var(--shadow-color) / 0.55), 0 2px 6px hsl(var(--shadow-color) / 0.5);
+  --shadow-lg: 0 24px 48px hsl(var(--shadow-color) / 0.6), 0 8px 18px hsl(var(--shadow-color) / 0.5);
+  --auth-bg-1: #071739;
+  --auth-bg-2: #030a1c;
+  --auth-blob-1: #4b6382;
+  --auth-blob-2: #e3c39d;
+  --auth-blob-3: #a68868;
+  --auth-card: rgba(255, 255, 255, 0.05);
+  --auth-card-border: rgba(255, 255, 255, 0.10);
+}
+
+/* =====================================================================
+   THEME: Cocoa — warm wellness neutrals, espresso + sand + oatmeal
+   Ref: Dusty Cocoa & Golden Glow palette, body-care store
+   ===================================================================== */
+[data-theme="cocoa"] {
+  color-scheme: light;
+  --bg: #ece4da;
+  --bg-elevated: #f6f0e7;
+  --surface: #f6f0e7;
+  --surface-2: #e7dccd;
+  --surface-3: #d8c8b4;
+  --overlay: rgba(50, 38, 30, 0.44);
+  --text: #3a2e26;
+  --text-muted: #6d5b4d;
+  --text-subtle: #a08d7b;
+  --text-on-accent: #f6f0e7;
+  --line: #e3d6c5;
+  --line-strong: #cdb89f;
+  --accent: #8a6c5f;
+  --accent-hover: #6e5448;
+  --accent-soft: #eee3d6;
+  --accent-2: #bfa38a;
+  --accent-2-soft: #f0e6d6;
+  --success: #5f7a45;
+  --success-soft: #ecf0e0;
+  --warning: #b9882f;
+  --warning-soft: #f4e9d2;
+  --danger: #a8463a;
+  --danger-soft: #f3e2dd;
+  --info: #5c6f78;
+  --info-soft: #e6edf0;
+  --status-pending: #b9882f;
+  --status-pending-soft: #f4e9d2;
+  --status-accepted: #5f7a45;
+  --status-accepted-soft: #ecf0e0;
+  --status-rejected: #a8463a;
+  --status-rejected-soft: #f3e2dd;
+  --status-completed: #5c6f78;
+  --status-completed-soft: #e6edf0;
+  --ring: rgba(138, 108, 95, 0.30);
+  --shadow-color: 26 30% 22%;
+  --auth-bg-1: #3a2e26;
+  --auth-bg-2: #1d1611;
+  --auth-blob-1: #8a6c5f;
+  --auth-blob-2: #bfa38a;
+  --auth-blob-3: #544339;
+}
+
+/* =====================================================================
+   THEME: Verdure — botanical luxe, deep emerald + brass + ivory
+   Ref: Virelle Botanica brand collage (emerald/gold/cream)
+   ===================================================================== */
+[data-theme="verdure"] {
+  color-scheme: light;
+  --bg: #eef1ea;
+  --bg-elevated: #fbfcf8;
+  --surface: #fbfcf8;
+  --surface-2: #e7ede1;
+  --surface-3: #d6e0cc;
+  --overlay: rgba(12, 30, 20, 0.46);
+  --text: #18271c;
+  --text-muted: #4a5b4c;
+  --text-subtle: #84937f;
+  --text-on-accent: #f5f1e2;
+  --line: #dde5d4;
+  --line-strong: #c2cfb3;
+  --accent: #1c4a32;
+  --accent-hover: #143726;
+  --accent-soft: #dde9df;
+  --accent-2: #b08d3c;
+  --accent-2-soft: #f1e7cf;
+  --success: #2f7d4f;
+  --success-soft: #e1f0e5;
+  --warning: #b08d3c;
+  --warning-soft: #f1e7cf;
+  --danger: #a83f33;
+  --danger-soft: #f4e1dd;
+  --info: #2c6670;
+  --info-soft: #dfecee;
+  --status-pending: #b08d3c;
+  --status-pending-soft: #f1e7cf;
+  --status-accepted: #2f7d4f;
+  --status-accepted-soft: #e1f0e5;
+  --status-rejected: #a83f33;
+  --status-rejected-soft: #f4e1dd;
+  --status-completed: #2c6670;
+  --status-completed-soft: #dfecee;
+  --ring: rgba(28, 74, 50, 0.30);
+  --shadow-color: 150 40% 14%;
+  --auth-bg-1: #102b1d;
+  --auth-bg-2: #061009;
+  --auth-blob-1: #1c4a32;
+  --auth-blob-2: #b08d3c;
+  --auth-blob-3: #2f7d4f;
+}
+
+/* =====================================================================
+   THEME: Rosewood — editorial blush + deep burgundy + creme
+   Ref: Luxury Lash palette (Creme/Sand/Dusty Pink/Burgundy)
+   ===================================================================== */
+[data-theme="rosewood"] {
+  color-scheme: light;
+  --bg: #f3e9e2;
+  --bg-elevated: #faf2ec;
+  --surface: #faf2ec;
+  --surface-2: #f0e0d6;
+  --surface-3: #e6cfc4;
+  --overlay: rgba(45, 14, 18, 0.46);
+  --text: #2a1216;
+  --text-muted: #6b4a4a;
+  --text-subtle: #a98e88;
+  --text-on-accent: #faf2ec;
+  --line: #ecdacf;
+  --line-strong: #dcbdb0;
+  --accent: #6d1722;
+  --accent-hover: #4d0e13;
+  --accent-soft: #f1dcdc;
+  --accent-2: #b07d6e;
+  --accent-2-soft: #f3e2da;
+  --success: #5a7d3c;
+  --success-soft: #edf2e1;
+  --warning: #bd7d2a;
+  --warning-soft: #f7ead2;
+  --danger: #a8392f;
+  --danger-soft: #f5e0dc;
+  --info: #855a8a;
+  --info-soft: #f0e6f1;
+  --status-pending: #bd7d2a;
+  --status-pending-soft: #f7ead2;
+  --status-accepted: #5a7d3c;
+  --status-accepted-soft: #edf2e1;
+  --status-rejected: #a8392f;
+  --status-rejected-soft: #f5e0dc;
+  --status-completed: #855a8a;
+  --status-completed-soft: #f0e6f1;
+  --ring: rgba(109, 23, 34, 0.30);
+  --shadow-color: 348 40% 18%;
+  --auth-bg-1: #3d0c12;
+  --auth-bg-2: #1c0608;
+  --auth-blob-1: #8a2231;
+  --auth-blob-2: #cba49f;
+  --auth-blob-3: #4d0e13;
+}
+
+/* =====================================================================
+   THEME: Lagoon — deep sea teals, midnight + turquoise + seafoam
+   Ref: Colors Sea palette + Luna Boutique teal/champagne
+   ===================================================================== */
+[data-theme="lagoon"] {
+  color-scheme: dark;
+  --bg: #021e22;
+  --bg-elevated: #052b30;
+  --surface: #063138;
+  --surface-2: #0c4049;
+  --surface-3: #14535d;
+  --overlay: rgba(0, 12, 14, 0.62);
+  --text: #e2f1f1;
+  --text-muted: #93b6b8;
+  --text-subtle: #5c8589;
+  --text-on-accent: #021e22;
+  --line: #14444c;
+  --line-strong: #1f5961;
+  --accent: #d8c3a0;
+  --accent-hover: #c8ad84;
+  --accent-soft: #0c3940;
+  --accent-2: #5c9396;
+  --accent-2-soft: #0a343a;
+  --success: #4fc28a;
+  --success-soft: #08291d;
+  --warning: #e0c08a;
+  --warning-soft: #2a2210;
+  --danger: #f08a86;
+  --danger-soft: #2d1413;
+  --info: #7cc3d6;
+  --info-soft: #0a2d35;
+  --status-pending: #e0c08a;
+  --status-pending-soft: #2a2210;
+  --status-accepted: #4fc28a;
+  --status-accepted-soft: #08291d;
+  --status-rejected: #f08a86;
+  --status-rejected-soft: #2d1413;
+  --status-completed: #7cc3d6;
+  --status-completed-soft: #0a2d35;
+  --ring: rgba(216, 195, 160, 0.36);
+  --shadow-color: 188 80% 2%;
+  --shadow-sm: 0 1px 2px hsl(var(--shadow-color) / 0.5), 0 1px 3px hsl(var(--shadow-color) / 0.6);
+  --shadow-md: 0 6px 18px hsl(var(--shadow-color) / 0.55), 0 2px 6px hsl(var(--shadow-color) / 0.5);
+  --shadow-lg: 0 24px 48px hsl(var(--shadow-color) / 0.6), 0 8px 18px hsl(var(--shadow-color) / 0.5);
+  --auth-bg-1: #013137;
+  --auth-bg-2: #001417;
+  --auth-blob-1: #297376;
+  --auth-blob-2: #d8c3a0;
+  --auth-blob-3: #215e68;
+  --auth-card: rgba(255, 255, 255, 0.05);
+  --auth-card-border: rgba(255, 255, 255, 0.10);
+}
+
+/* ---------- Tailwind v4 theme mapping (creates utility classes) ---------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-overlay: var(--overlay);
+
+  --color-content: var(--text);
+  --color-muted: var(--text-muted);
+  --color-subtle: var(--text-subtle);
+  --color-on-accent: var(--text-on-accent);
+
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-2: var(--accent-2);
+  --color-accent-2-soft: var(--accent-2-soft);
+
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+
+  --color-status-pending: var(--status-pending);
+  --color-status-pending-soft: var(--status-pending-soft);
+  --color-status-accepted: var(--status-accepted);
+  --color-status-accepted-soft: var(--status-accepted-soft);
+  --color-status-rejected: var(--status-rejected);
+  --color-status-rejected-soft: var(--status-rejected-soft);
+  --color-status-completed: var(--status-completed);
+  --color-status-completed-soft: var(--status-completed-soft);
+
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+/* ---------- Global base ---------- */
+* {
+  border-color: var(--line);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
+  background-color: var(--bg);
+  background-image: var(--mesh-1);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.5s ease, color 0.4s ease;
 }
 
-/* Ensure all form inputs have legible dark text on light backgrounds */
-input:not([type='checkbox']):not([type='radio']),
-textarea,
-select {
-  color: #111827;
+::selection {
+  background: var(--accent);
+  color: var(--text-on-accent);
 }
 
-/* Auth pages use semi-transparent inputs on dark backgrounds — keep white */
-.auth-input,
-.auth-input input {
-  color: #ffffff !important;
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }
 
-/* Highlight invalid fields */
+/* Smooth theme transitions across the whole tree */
+:root,
+[data-theme] {
+  transition: background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease;
+}
+
+/* ---------- Scrollbars ---------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+}
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--bg);
+}
+*::-webkit-scrollbar-thumb:hover { background: var(--text-subtle); }
+
+/* ---------- Form controls: token-driven, legible everywhere ---------- */
+input:not([type='checkbox']):not([type='radio']):not(.auth-field),
+textarea:not(.auth-field),
+select:not(.auth-field) {
+  color: var(--text);
+  background-color: var(--surface);
+  border-color: var(--line-strong);
+}
+input::placeholder,
+textarea::placeholder { color: var(--text-subtle); }
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+}
+
 input[aria-invalid='true'],
 textarea[aria-invalid='true'],
 select[aria-invalid='true'] {
-  border-color: #ef4444 !important;
-  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 3px var(--danger-soft);
+}
+
+/* ============================================================
+   AUTH SCENE — replaces the old slate gradient + jsx blobs.
+   Used by .auth-scene wrapper on login/register/reset pages.
+   ============================================================ */
+.auth-scene {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 120% at 80% -10%, var(--auth-bg-1), transparent 55%),
+    linear-gradient(160deg, var(--auth-bg-2), var(--auth-bg-1));
+  color: var(--auth-text);
+}
+
+.auth-scene::before,
+.auth-scene::after,
+.auth-scene > .auth-blob {
+  content: "";
+  position: absolute;
+  width: 26rem;
+  height: 26rem;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: authFloat 16s ease-in-out infinite;
+}
+.auth-scene::before {
+  top: -6rem; left: -4rem;
+  background: var(--auth-blob-1);
+}
+.auth-scene::after {
+  bottom: -8rem; right: -4rem;
+  background: var(--auth-blob-2);
+  animation-delay: -5s;
+}
+.auth-scene > .auth-blob {
+  bottom: -4rem; left: 30%;
+  background: var(--auth-blob-3);
+  animation-delay: -9s;
+}
+
+/* grain overlay for depth */
+.auth-scene > .auth-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes authFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, -40px) scale(1.12); }
+  66% { transform: translate(-30px, 30px) scale(0.92); }
+}
+
+.auth-card {
+  position: relative;
+  width: 100%;
+  max-width: 28rem;
+  z-index: 1;
+}
+
+.auth-panel {
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  background: var(--auth-card);
+  border: 1px solid var(--auth-card-border);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  padding: 2rem;
+}
+
+/* Auth typography helpers */
+.auth-title { color: var(--auth-text); }
+.auth-sub { color: var(--auth-text-muted); }
+
+/* Auth inputs (semi-transparent glass on dark scene) */
+.auth-field {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--radius-sm);
+  color: var(--auth-text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.auth-field::placeholder { color: rgba(255, 255, 255, 0.55); }
+.auth-field:focus {
+  outline: none;
+  border-color: var(--auth-blob-1);
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.12);
+}
+
+/* ============================================================
+   COMPONENT PRIMITIVES (utility classes for reuse in TSX)
+   ============================================================ */
+
+/* Card */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+}
+.card-hover:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--line-strong);
+  transform: translateY(-3px);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: transform 0.18s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+}
+.btn:active { transform: translateY(1px) scale(0.99); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  color: var(--text-on-accent);
+  box-shadow: 0 8px 20px var(--ring);
+}
+.btn-primary:hover:not(:disabled) {
+  box-shadow: 0 12px 28px var(--ring);
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+.btn-ghost:hover:not(:disabled) { background: var(--surface-3); }
+
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+}
+.btn-danger:hover:not(:disabled) { filter: brightness(0.94); }
+
+/* Input shell */
+.field {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.field:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+/* Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+}
+
+/* Glass surface (header, popovers) */
+.glass {
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--line);
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Animated brand dot */
+.brand-mark {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 6px 18px var(--ring);
+}
+
+/* ============================================================
+   THEME SWITCHER — floating button + slide-out panel
+   ============================================================ */
+.theme-fab {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 0.95rem;
+  border: none;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  color: var(--text-on-accent);
+  box-shadow: -8px 8px 28px var(--ring);
+  cursor: pointer;
+  transition: padding 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+.theme-fab:hover {
+  padding-right: 1.4rem;
+  box-shadow: -10px 10px 34px var(--ring);
+}
+.theme-fab svg { animation: spinSlow 9s linear infinite; }
+@keyframes spinSlow { to { transform: rotate(360deg); } }
+
+.theme-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: var(--overlay);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  animation: fadeIn 0.25s ease forwards;
+}
+@keyframes fadeIn { to { opacity: 1; } }
+
+.theme-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 100;
+  height: 100vh;
+  width: min(380px, 88vw);
+  background: var(--bg-elevated);
+  border-left: 1px solid var(--line);
+  box-shadow: -24px 0 60px hsl(var(--shadow-color) / 0.25);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  animation: slideIn 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes slideIn { to { transform: translateX(0); } }
+
+.theme-panel-head {
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.theme-grid {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-content: start;
+}
+
+.theme-swatch {
+  position: relative;
+  text-align: left;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--surface);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.theme-swatch:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent);
+}
+.theme-swatch[data-active='true'] {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+/* The mini "app preview" inside each swatch (pure CSS visual) */
+.theme-preview {
+  height: 92px;
+  position: relative;
+  display: flex;
+  gap: 6px;
+  padding: 10px;
+}
+.theme-preview .tp-rail {
+  width: 26%;
+  border-radius: 6px;
+  background: var(--tp-surface2);
+  border: 1px solid var(--tp-line);
+}
+.theme-preview .tp-main {
+  flex: 1;
+  border-radius: 6px;
+  background: var(--tp-surface);
+  border: 1px solid var(--tp-line);
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.theme-preview .tp-bar {
+  height: 7px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--tp-accent), var(--tp-accent2));
+  width: 70%;
+}
+.theme-preview .tp-line {
+  height: 5px;
+  border-radius: 4px;
+  background: var(--tp-line2);
+  width: 90%;
+}
+.theme-preview .tp-line.short { width: 55%; }
+.theme-preview .tp-chip {
+  height: 14px;
+  width: 38px;
+  border-radius: 999px;
+  background: var(--tp-accent);
+  margin-top: auto;
+}
+.theme-preview .tp-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--tp-accent2);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tp-accent2) 30%, transparent);
+}
+
+.theme-meta {
+  padding: 0.6rem 0.75rem 0.7rem;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+.theme-meta .tm-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.theme-meta .tm-tag {
+  font-size: 0.68rem;
+  color: var(--text-subtle);
+  margin-top: 2px;
+}
+.theme-meta .tm-dots {
+  display: flex;
+  gap: 4px;
+  margin-top: 7px;
+}
+.theme-meta .tm-dots span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--dot);
+}
+
+.theme-check {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--text-on-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ============================================================
+   STATUS-AWARE SURFACES (requests, skills, reviews, reports)
+   Token-driven, no dynamic class names.
+   ============================================================ */
+
+/* Status-tinted cards (left accent bar + soft tint) */
+.status-card-pending,
+.status-card-accepted,
+.status-card-rejected,
+.status-card-completed {
+  border-left-width: 4px;
+}
+.status-card-pending   { border-left-color: var(--status-pending);   background: color-mix(in srgb, var(--status-pending-soft) 60%, var(--surface)); }
+.status-card-accepted  { border-left-color: var(--status-accepted);  background: color-mix(in srgb, var(--status-accepted-soft) 60%, var(--surface)); }
+.status-card-rejected  { border-left-color: var(--status-rejected);  background: color-mix(in srgb, var(--status-rejected-soft) 60%, var(--surface)); }
+.status-card-completed { border-left-color: var(--status-completed); background: color-mix(in srgb, var(--status-completed-soft) 60%, var(--surface)); }
+
+/* Status chips (badges) */
+.status-chip-pending   { background: var(--surface); color: var(--status-pending);   }
+.status-chip-accepted  { background: var(--surface); color: var(--status-accepted);  }
+.status-chip-rejected  { background: var(--surface); color: var(--status-rejected);  }
+.status-chip-completed { background: var(--surface); color: var(--status-completed); }
+
+/* Soft inline status badges (e.g. skill status) */
+.badge-pending   { background: var(--status-pending-soft);   color: var(--status-pending);   }
+.badge-accepted  { background: var(--status-accepted-soft);  color: var(--status-accepted);  }
+.badge-approved  { background: var(--status-accepted-soft);  color: var(--status-accepted);  }
+.badge-rejected  { background: var(--status-rejected-soft);  color: var(--status-rejected);  }
+.badge-completed { background: var(--status-completed-soft); color: var(--status-completed); }
+.badge-received  { background: var(--success-soft);          color: var(--success);          }
+.badge-given     { background: var(--accent-soft);           color: var(--accent);           }
+
+/* ---------- Filter pills ---------- */
+.filter-pill {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.875rem;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  border: 1px solid var(--line);
+  transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+  cursor: pointer;
+}
+.filter-pill:hover { background: var(--surface-3); }
+.filter-pill-sm { padding: 0.25rem 0.75rem; font-size: 0.75rem; }
+
+.filter-pill-active-accent    { background: linear-gradient(135deg, var(--accent), var(--accent-hover)); color: var(--text-on-accent); border-color: transparent; box-shadow: 0 6px 16px var(--ring); }
+.filter-pill-active-pending   { background: var(--status-pending);   color: #fff; border-color: transparent; }
+.filter-pill-active-accepted  { background: var(--status-accepted);  color: #fff; border-color: transparent; }
+.filter-pill-active-rejected  { background: var(--status-rejected);  color: #fff; border-color: transparent; }
+.filter-pill-active-completed { background: var(--status-completed); color: #fff; border-color: transparent; }
+.filter-pill-active-rating    { background: var(--warning); color: #fff; border-color: transparent; }
+
+/* ---------- Summary tiles ---------- */
+.summary-tile-accent    { background: var(--accent-soft);           border-color: color-mix(in srgb, var(--accent) 25%, transparent); }
+.summary-tile-pending   { background: var(--status-pending-soft);   border-color: color-mix(in srgb, var(--status-pending) 25%, transparent); }
+.summary-tile-accepted  { background: var(--status-accepted-soft);  border-color: color-mix(in srgb, var(--status-accepted) 25%, transparent); }
+.summary-tile-rejected  { background: var(--status-rejected-soft);  border-color: color-mix(in srgb, var(--status-rejected) 25%, transparent); }
+.summary-tile-success   { background: var(--success-soft);          border-color: color-mix(in srgb, var(--success) 25%, transparent); }
+.summary-tile-warning   { background: var(--warning-soft);          border-color: color-mix(in srgb, var(--warning) 25%, transparent); }
+
+/* ---------- Additional button variants ---------- */
+.btn-approve { background: var(--status-accepted); color: #fff; }
+.btn-approve:hover:not(:disabled) { filter: brightness(0.94); }
+.btn-accent2 {
+  background: linear-gradient(135deg, var(--accent-2), color-mix(in srgb, var(--accent-2) 70%, var(--accent)));
+  color: var(--text-on-accent);
+}
+.btn-accent2:hover:not(:disabled) { box-shadow: 0 10px 24px var(--ring); transform: translateY(-2px); }
+.btn-review { background: var(--warning); color: #fff; }
+.btn-review:hover:not(:disabled) { filter: brightness(0.95); }
+.btn-success { background: var(--success); color: #fff; }
+.btn-success:hover:not(:disabled) { filter: brightness(0.94); }
+
+/* ---------- Modals ---------- */
+.modal-scrim {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+.modal-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ---------- Rating ramp helpers (reviews) ---------- */
+.rating-tile-5 { background: var(--success-soft);          border-color: color-mix(in srgb, var(--success) 30%, transparent); }
+.rating-tile-4 { background: var(--accent-soft);           border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
+.rating-tile-3 { background: var(--warning-soft);          border-color: color-mix(in srgb, var(--warning) 30%, transparent); }
+.rating-tile-2 { background: var(--status-pending-soft);   border-color: color-mix(in srgb, var(--status-pending) 30%, transparent); }
+.rating-tile-1 { background: var(--danger-soft);           border-color: color-mix(in srgb, var(--danger) 30%, transparent); }
+.rating-star-5 { color: var(--success); }
+.rating-star-4 { color: var(--accent); }
+.rating-star-3 { color: var(--warning); }
+.rating-star-2 { color: var(--status-pending); }
+.rating-star-1 { color: var(--danger); }
+
+/* ---------- Star (rating) color ---------- */
+.star-on  { color: #f5b301; fill: #f5b301; }
+.star-off { color: var(--line-strong); }
+
+/* ---------- Avatar gradient helpers ---------- */
+.avatar-accent { background: linear-gradient(135deg, var(--accent), var(--accent-hover)); color: var(--text-on-accent); }
+.avatar-accent2 { background: linear-gradient(135deg, var(--accent-2), var(--accent)); color: var(--text-on-accent); }
+
+/* ---------- Toggle (settings) ---------- */
+.toggle-on  { color: var(--success); }
+.toggle-off { color: var(--text-subtle); }
+
+/* ---------- Quick-action tiles (dashboard) ---------- */
+.action-tile {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-md);
+  text-align: left;
+  background: var(--surface);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.action-tile:hover { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 40%, transparent); transform: translateY(-2px); }
+
+/* ---------- Bookshelf (my skills) spine ---------- */
+.book-spine { background: linear-gradient(to right, rgba(0,0,0,0.04), rgba(0,0,0,0.18)); }
+.book-overlay { background: linear-gradient(to top, rgba(0,0,0,0.85), transparent 60%); }
+
+/* ---------- Chat bubbles ---------- */
+.bubble-sent { background: linear-gradient(135deg, var(--accent), var(--accent-hover)); color: var(--text-on-accent); }
+.bubble-recv { background: var(--surface-2); color: var(--text); }
+
+/* ---------- Profile cover banner ---------- */
+.profile-cover { background: linear-gradient(120deg, var(--accent), var(--accent-2)); }
+
+/* ---------- Reveal animation utility ---------- */
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal { animation: riseIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

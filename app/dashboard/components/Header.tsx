@@ -34,10 +34,10 @@ const activityIcon: Record<string, typeof CheckCircle> = {
 };
 
 const activityBg: Record<string, string> = {
-  success: "bg-blue-50 border-blue-200",
-  warning: "bg-orange-50 border-orange-200",
-  info: "bg-gray-50 border-gray-200",
-  message: "bg-emerald-50 border-emerald-200",
+  success: "bg-accent-soft",
+  warning: "bg-warning-soft",
+  info: "bg-surface-2",
+  message: "bg-accent-2-soft",
 };
 
 export default function Header() {
@@ -121,8 +121,7 @@ export default function Header() {
       }
     };
     window.addEventListener("avatarUpdated", handleAvatarUpdate);
-    return () =>
-      window.removeEventListener("avatarUpdated", handleAvatarUpdate);
+    return () => window.removeEventListener("avatarUpdated", handleAvatarUpdate);
   }, []);
 
   // Fetch notifications + recent chats
@@ -182,41 +181,41 @@ export default function Header() {
   const initials = displayName[0]?.toUpperCase() ?? "U";
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-200 shadow-sm z-50">
-      <div className="flex items-center justify-between h-full px-6">
+    <header className="glass fixed left-0 right-0 top-0 z-50 h-16 border-b border-line shadow-sm">
+      <div className="flex h-full items-center justify-between px-6">
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          <div className="w-30 h-20 flex items-center justify-center">
-            <img src="/logo.jfif" alt="Logo" />
+        <div className="flex items-center gap-2.5">
+          <div className="brand-mark flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl">
+            <img src="/logo.jfif" alt="Logo" className="h-full w-full object-cover" />
           </div>
-          <h1 className="text-xl font-bold text-gray-900">XchangeSkills</h1>
+          <h1 className="text-xl font-bold text-content">
+            Xchange<span className="text-gradient">Skills</span>
+          </h1>
         </div>
 
         {/* Search */}
         <form
-          className="flex-1 max-w-md mx-8 hidden md:block"
+          className="mx-8 hidden max-w-md flex-1 md:block"
           onSubmit={(e) => {
             e.preventDefault();
             if (searchQuery.trim())
-              router.push(
-                `/marketplace?q=${encodeURIComponent(searchQuery.trim())}`,
-              );
+              router.push(`/marketplace?q=${encodeURIComponent(searchQuery.trim())}`);
           }}
         >
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-subtle" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search skills..."
-              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
+              className="field w-full py-2 pl-10 pr-4 text-content placeholder:text-subtle"
             />
           </div>
         </form>
 
         {/* Right actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           {/* ── Notifications bell ── */}
           <div className="relative" ref={notifRef}>
             <button
@@ -225,25 +224,23 @@ export default function Header() {
                 setIsMessagesOpen(false);
                 setIsProfileOpen(false);
               }}
-              className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition"
+              className="relative rounded-lg p-2 text-muted transition hover:bg-surface-2 hover:text-content"
             >
-              <Bell className="w-5 h-5" />
+              <Bell className="h-5 w-5" />
               {unreadCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-orange-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center px-1">
+                <span className="absolute -right-0.5 -top-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-warning px-1 text-[10px] font-bold text-white">
                   {unreadCount > 9 ? "9+" : unreadCount}
                 </span>
               )}
             </button>
 
             {isNotificationsOpen && (
-              <div className="absolute top-12 right-0 bg-white border border-gray-200 rounded-xl shadow-xl w-80 z-10">
-                <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+              <div className="absolute right-0 top-12 z-10 w-80 rounded-2xl border border-line bg-bg-elevated shadow-lg">
+                <div className="flex items-center justify-between border-b border-line px-4 py-3">
                   <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-gray-900 text-sm">
-                      Notifications
-                    </h3>
+                    <h3 className="text-sm font-semibold text-content">Notifications</h3>
                     {unreadCount > 0 && (
-                      <span className="text-xs bg-orange-100 text-orange-700 font-semibold px-2 py-0.5 rounded-full">
+                      <span className="badge bg-warning-soft px-2 py-0.5 text-xs font-semibold text-warning">
                         {unreadCount}
                       </span>
                     )}
@@ -251,56 +248,49 @@ export default function Header() {
                   {unreadCount > 0 && (
                     <button
                       onClick={markAllNotifsRead}
-                      className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 font-medium transition"
+                      className="flex items-center gap-1 text-xs font-medium text-accent transition hover:opacity-80"
                       title="Mark all as read"
                     >
-                      <CheckCircle className="w-3.5 h-3.5" />
+                      <CheckCircle className="h-3.5 w-3.5" />
                       Mark all read
                     </button>
                   )}
                 </div>
 
-                <div className="max-h-80 overflow-y-auto divide-y divide-gray-50">
+                <div className="max-h-80 divide-y divide-line overflow-y-auto">
                   {notifications.length === 0 ? (
-                    <p className="text-sm text-gray-400 text-center py-8">
-                      All caught up!
-                    </p>
+                    <p className="py-8 text-center text-sm text-subtle">All caught up!</p>
                   ) : (
                     notifications.map((item) => {
                       const Icon = activityIcon[item.type] ?? Info;
                       return (
                         <div
                           key={item.id}
-                          className={`px-3 py-2.5 transition ${!item.isRead ? "bg-blue-50/50" : "hover:bg-gray-50"}`}
+                          className={`px-3 py-2.5 transition ${
+                            !item.isRead ? "bg-accent-soft/40" : "hover:bg-surface-2"
+                          }`}
                         >
                           <div className="flex items-start gap-2">
-                            <div
-                              className={`p-1 rounded-md shrink-0 ${activityBg[item.type] ?? activityBg.info}`}
-                            >
-                              <Icon className="w-3.5 h-3.5 text-gray-600" />
+                            <div className={`shrink-0 rounded-md p-1 ${activityBg[item.type] ?? activityBg.info}`}>
+                              <Icon className="h-3.5 w-3.5 text-muted" />
                             </div>
-                            <div className="flex-1 min-w-0">
-                              <a
-                                href={item.actionLink || "#"}
-                                onClick={() => markNotifRead(item.id)}
-                              >
+                            <div className="min-w-0 flex-1">
+                              <a href={item.actionLink || "#"} onClick={() => markNotifRead(item.id)}>
                                 <p
-                                  className={`text-xs text-gray-800 line-clamp-2 leading-snug ${!item.isRead ? "font-semibold" : ""}`}
+                                  className={`line-clamp-2 text-xs leading-snug text-content ${
+                                    !item.isRead ? "font-semibold" : ""
+                                  }`}
                                 >
                                   {item.message}
                                 </p>
                               </a>
-                              <p className="text-[11px] text-gray-400 mt-0.5">
-                                {relativeTime(item.createdAt)}
-                              </p>
+                              <p className="mt-0.5 text-[11px] text-subtle">{relativeTime(item.createdAt)}</p>
                             </div>
-                            <div className="flex flex-col items-end gap-1 shrink-0">
-                              {!item.isRead && (
-                                <span className="w-2 h-2 bg-blue-500 rounded-full" />
-                              )}
+                            <div className="flex shrink-0 flex-col items-end gap-1">
+                              {!item.isRead && <span className="h-2 w-2 rounded-full bg-accent" />}
                               <button
                                 onClick={() => dismissNotif(item.id)}
-                                className="text-gray-300 hover:text-gray-500 transition text-lg leading-none"
+                                className="text-lg leading-none text-subtle transition hover:text-muted"
                                 title="Dismiss"
                               >
                                 ×
@@ -310,9 +300,9 @@ export default function Header() {
                           {!item.isRead && (
                             <button
                               onClick={() => markNotifRead(item.id)}
-                              className="mt-1 ml-7 text-[11px] text-blue-500 hover:text-blue-700 font-medium flex items-center gap-0.5 transition"
+                              className="ml-7 mt-1 flex items-center gap-0.5 text-[11px] font-medium text-accent transition hover:opacity-80"
                             >
-                              <CheckCircle className="w-3 h-3" /> Mark as read
+                              <CheckCircle className="h-3 w-3" /> Mark as read
                             </button>
                           )}
                         </div>
@@ -321,11 +311,11 @@ export default function Header() {
                   )}
                 </div>
 
-                <div className="px-3 py-2.5 border-t border-gray-100">
+                <div className="border-t border-line px-3 py-2.5">
                   <Link
                     href="/dashboard/notifications"
                     onClick={() => setIsNotificationsOpen(false)}
-                    className="block text-center text-xs text-blue-600 hover:text-blue-700 font-semibold"
+                    className="block text-center text-xs font-semibold text-accent hover:opacity-80"
                   >
                     View All Notifications →
                   </Link>
@@ -342,25 +332,23 @@ export default function Header() {
                 setIsNotificationsOpen(false);
                 setIsProfileOpen(false);
               }}
-              className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition"
+              className="relative rounded-lg p-2 text-muted transition hover:bg-surface-2 hover:text-content"
             >
-              <MessageCircle className="w-5 h-5" />
+              <MessageCircle className="h-5 w-5" />
               {unreadMsgs > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-blue-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center px-1">
+                <span className="absolute -right-0.5 -top-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-accent px-1 text-[10px] font-bold text-on-accent">
                   {unreadMsgs > 9 ? "9+" : unreadMsgs}
                 </span>
               )}
             </button>
 
             {isMessagesOpen && (
-              <div className="absolute top-12 right-0 bg-white border border-gray-200 rounded-xl shadow-xl w-80 z-10">
-                <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+              <div className="absolute right-0 top-12 z-10 w-80 rounded-2xl border border-line bg-bg-elevated shadow-lg">
+                <div className="flex items-center justify-between border-b border-line px-4 py-3">
                   <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-gray-900 text-sm">
-                      Messages
-                    </h3>
+                    <h3 className="text-sm font-semibold text-content">Messages</h3>
                     {unreadMsgs > 0 && (
-                      <span className="text-xs bg-blue-100 text-blue-700 font-semibold px-2 py-0.5 rounded-full">
+                      <span className="badge bg-accent-soft px-2 py-0.5 text-xs font-semibold text-accent">
                         {unreadMsgs} unread
                       </span>
                     )}
@@ -369,62 +357,59 @@ export default function Header() {
                     <button
                       onClick={markAllChatsRead}
                       disabled={markingAllRead}
-                      className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 font-medium transition disabled:opacity-50"
+                      className="flex items-center gap-1 text-xs font-medium text-accent transition hover:opacity-80 disabled:opacity-50"
                       title="Mark all as read"
                     >
-                      <CheckCircle className="w-3.5 h-3.5" />
+                      <CheckCircle className="h-3.5 w-3.5" />
                       Mark all read
                     </button>
                   )}
                 </div>
-                <div className="max-h-72 overflow-y-auto divide-y divide-gray-50">
+                <div className="max-h-72 divide-y divide-line overflow-y-auto">
                   {recentChats.length === 0 ? (
-                    <p className="text-sm text-gray-400 text-center py-8">
-                      No conversations yet
-                    </p>
+                    <p className="py-8 text-center text-sm text-subtle">No conversations yet</p>
                   ) : (
                     recentChats.map((chat) => {
-                      const hasUnread =
-                        chat.hasUnread && !readChatIds.has(chat.id);
+                      const hasUnread = chat.hasUnread && !readChatIds.has(chat.id);
                       return (
                         <div
                           key={chat.id}
-                          className={`flex items-center gap-3 px-3 py-2.5 transition ${hasUnread ? "bg-blue-50/60" : "hover:bg-gray-50"}`}
+                          className={`flex items-center gap-3 px-3 py-2.5 transition ${
+                            hasUnread ? "bg-accent-soft/40" : "hover:bg-surface-2"
+                          }`}
                         >
                           <Link
                             href="/dashboard/chat"
                             onClick={() => setIsMessagesOpen(false)}
-                            className="flex items-center gap-3 flex-1 min-w-0"
+                            className="flex min-w-0 flex-1 items-center gap-3"
                           >
                             <div className="relative shrink-0">
-                              <div className="w-9 h-9 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                              <div className="brand-mark flex h-9 w-9 items-center justify-center rounded-full text-sm font-semibold text-on-accent">
                                 {chat.otherUser.name[0]?.toUpperCase() ?? "?"}
                               </div>
                               {hasUnread && (
-                                <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-blue-500 rounded-full border-2 border-white" />
+                                <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-bg-elevated bg-accent" />
                               )}
                             </div>
-                            <div className="flex-1 min-w-0">
+                            <div className="min-w-0 flex-1">
                               <p
-                                className={`text-xs truncate ${hasUnread ? "font-bold text-gray-900" : "font-semibold text-gray-900"}`}
+                                className={`truncate text-xs text-content ${
+                                  hasUnread ? "font-bold" : "font-semibold"
+                                }`}
                               >
                                 {chat.otherUser.name}
                               </p>
-                              <p className="text-xs text-gray-500 truncate mt-0.5">
-                                {chat.lastMessage}
-                              </p>
+                              <p className="mt-0.5 truncate text-xs text-subtle">{chat.lastMessage}</p>
                             </div>
                           </Link>
-                          <div className="flex flex-col items-end gap-1 shrink-0">
-                            <p className="text-[11px] text-gray-400">
-                              {relativeTime(chat.updatedAt)}
-                            </p>
+                          <div className="flex shrink-0 flex-col items-end gap-1">
+                            <p className="text-[11px] text-subtle">{relativeTime(chat.updatedAt)}</p>
                             {hasUnread && (
                               <button
                                 onClick={() => markOneChatRead(chat.id)}
-                                className="text-[11px] text-blue-500 hover:text-blue-700 font-medium flex items-center gap-0.5 transition"
+                                className="flex items-center gap-0.5 text-[11px] font-medium text-accent transition hover:opacity-80"
                               >
-                                <CheckCircle className="w-3 h-3" /> Read
+                                <CheckCircle className="h-3 w-3" /> Read
                               </button>
                             )}
                           </div>
@@ -433,11 +418,11 @@ export default function Header() {
                     })
                   )}
                 </div>
-                <div className="px-3 py-2.5 border-t border-gray-100">
+                <div className="border-t border-line px-3 py-2.5">
                   <Link
                     href="/dashboard/chat"
                     onClick={() => setIsMessagesOpen(false)}
-                    className="block text-center text-xs text-blue-600 hover:text-blue-700 font-semibold"
+                    className="block text-center text-xs font-semibold text-accent hover:opacity-80"
                   >
                     Open Chat →
                   </Link>
@@ -454,47 +439,39 @@ export default function Header() {
                 setIsNotificationsOpen(false);
                 setIsMessagesOpen(false);
               }}
-              className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-full flex items-center justify-center text-white font-semibold hover:shadow-md transition cursor-pointer overflow-hidden"
+              className="flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-[var(--accent)] to-[var(--accent-2)] font-semibold text-on-accent transition hover:shadow-md"
               title={displayName}
             >
               {currentUser.avatar ? (
-                <img
-                  src={currentUser.avatar}
-                  alt={displayName}
-                  className="w-full h-full object-cover"
-                />
+                <img src={currentUser.avatar} alt={displayName} className="h-full w-full object-cover" />
               ) : (
                 initials
               )}
             </button>
 
             {isProfileOpen && (
-              <div className="absolute top-12 right-0 bg-white border border-gray-200 rounded-lg shadow-lg py-2 w-48">
-                <div className="px-4 py-2 border-b border-gray-100 mb-1">
-                  <p className="text-sm font-semibold text-gray-900 truncate">
-                    {displayName}
-                  </p>
-                  <p className="text-xs text-gray-500 truncate">
-                    {currentUser.username}
-                  </p>
+              <div className="absolute right-0 top-12 w-48 rounded-xl border border-line bg-bg-elevated py-2 shadow-lg">
+                <div className="mb-1 border-b border-line px-4 py-2">
+                  <p className="truncate text-sm font-semibold text-content">{displayName}</p>
+                  <p className="truncate text-xs text-subtle">{currentUser.username}</p>
                 </div>
                 <Link
                   href="/dashboard/profile"
-                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm"
+                  className="block px-4 py-2 text-sm text-muted transition hover:bg-surface-2 hover:text-content"
                 >
                   My Profile
                 </Link>
                 <Link
                   href="/dashboard/settings"
-                  className="block px-4 py-2 text-gray-700 hover:bg-gray-100 text-sm"
+                  className="block px-4 py-2 text-sm text-muted transition hover:bg-surface-2 hover:text-content"
                 >
                   Settings
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 text-sm flex items-center gap-2"
+                  className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-danger transition hover:bg-danger-soft"
                 >
-                  <LogOut className="w-4 h-4" />
+                  <LogOut className="h-4 w-4" />
                   Logout
                 </button>
               </div>

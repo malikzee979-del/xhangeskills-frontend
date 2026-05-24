@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { skillApi, Skill } from '@/services/skillApi';
 import { categoryApi, Category } from '@/services/categoryApi';
 import Link from 'next/link';
-import { Search, Plus, Loader, Star, User } from 'lucide-react';
+import { Search, Plus, Loader } from 'lucide-react';
 
 export default function SkillsMarketplacePage() {
   const searchParams = useSearchParams();
@@ -15,7 +15,9 @@ export default function SkillsMarketplacePage() {
   const [searchQuery, setSearchQuery] = useState(searchParams?.get('q') || '');
   const [selectedCategory, setSelectedCategory] = useState('');
 
-  useEffect(() => { loadData(); }, [searchQuery, selectedCategory]);
+  useEffect(() => {
+    loadData();
+  }, [searchQuery, selectedCategory]);
 
   const loadData = async () => {
     try {
@@ -40,64 +42,70 @@ export default function SkillsMarketplacePage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Skills Marketplace</h1>
-          <p className="text-sm text-gray-500 mt-1">Browse and discover skills from the community</p>
+          <h1 className="text-2xl font-bold text-content">Skills Marketplace</h1>
+          <p className="mt-1 text-sm text-muted">Browse and discover skills from the community</p>
         </div>
-        <Link
-          href="/dashboard/skills?new=1"
-          className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition shrink-0"
-        >
-          <Plus className="w-4 h-4" />
+        <Link href="/dashboard/skills?new=1" className="btn btn-primary shrink-0 px-4 py-2 text-sm">
+          <Plus className="h-4 w-4" />
           Offer a Skill
         </Link>
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
-        <div className="flex flex-col sm:flex-row gap-3">
+      <div className="card p-4">
+        <div className="flex flex-col gap-3 sm:flex-row">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-subtle" />
             <input
               type="text"
               placeholder="Search by skill name or description..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-lg bg-gray-50 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
+              className="field w-full py-2 pl-9 pr-4 text-sm"
             />
           </div>
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="py-2 px-3 text-sm border border-gray-200 rounded-lg bg-gray-50 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition sm:w-48"
+            className="field py-2 px-3 text-sm sm:w-48"
           >
             <option value="">All Categories</option>
             {categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>{cat.name}</option>
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
+              </option>
             ))}
           </select>
         </div>
 
         {/* Active filters */}
         {(searchQuery || selectedCategory) && (
-          <div className="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100">
-            <span className="text-xs text-gray-500">Filters:</span>
+          <div className="mt-3 flex items-center gap-2 border-t border-line pt-3">
+            <span className="text-xs text-subtle">Filters:</span>
             {searchQuery && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-blue-700 text-xs rounded-full">
-                "{searchQuery}"
-                <button onClick={() => setSearchQuery('')} className="hover:text-blue-900 ml-0.5">×</button>
+              <span className="badge bg-accent-soft px-2 py-0.5 text-xs text-accent">
+                &quot;{searchQuery}&quot;
+                <button onClick={() => setSearchQuery('')} className="ml-0.5 hover:opacity-70">
+                  ×
+                </button>
               </span>
             )}
             {selectedCategory && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-50 text-blue-700 text-xs rounded-full">
+              <span className="badge bg-accent-soft px-2 py-0.5 text-xs text-accent">
                 {categories.find((c) => c.id === selectedCategory)?.name}
-                <button onClick={() => setSelectedCategory('')} className="hover:text-blue-900 ml-0.5">×</button>
+                <button onClick={() => setSelectedCategory('')} className="ml-0.5 hover:opacity-70">
+                  ×
+                </button>
               </span>
             )}
             <button
-              onClick={() => { setSearchQuery(''); setSelectedCategory(''); }}
-              className="ml-auto text-xs text-gray-400 hover:text-gray-600 transition"
+              onClick={() => {
+                setSearchQuery('');
+                setSelectedCategory('');
+              }}
+              className="ml-auto text-xs text-subtle transition hover:text-muted"
             >
               Clear all
             </button>
@@ -107,85 +115,88 @@ export default function SkillsMarketplacePage() {
 
       {/* Results count */}
       {!loading && (
-        <p className="text-sm text-gray-500">
-          {skills.length === 0 ? 'No skills found' : `${skills.length} skill${skills.length !== 1 ? 's' : ''} found`}
+        <p className="text-sm text-muted">
+          {skills.length === 0
+            ? 'No skills found'
+            : `${skills.length} skill${skills.length !== 1 ? 's' : ''} found`}
         </p>
       )}
 
       {/* Grid */}
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-16 gap-3">
-          <Loader className="w-8 h-8 animate-spin text-blue-500" />
-          <p className="text-sm text-gray-500">Loading skills...</p>
+        <div className="flex flex-col items-center justify-center gap-3 py-16">
+          <Loader className="h-8 w-8 animate-spin text-accent" />
+          <p className="text-sm text-muted">Loading skills...</p>
         </div>
       ) : skills.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 bg-white rounded-xl border border-gray-200 gap-4">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
-            <Search className="w-8 h-8 text-gray-400" />
+        <div className="card flex flex-col items-center justify-center gap-4 py-16">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-surface-2">
+            <Search className="h-8 w-8 text-subtle" />
           </div>
           <div className="text-center">
-            <p className="font-semibold text-gray-900">No skills found</p>
-            <p className="text-sm text-gray-500 mt-1">Try different keywords or clear your filters</p>
+            <p className="font-semibold text-content">No skills found</p>
+            <p className="mt-1 text-sm text-muted">Try different keywords or clear your filters</p>
           </div>
           {(searchQuery || selectedCategory) && (
             <button
-              onClick={() => { setSearchQuery(''); setSelectedCategory(''); }}
-              className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              onClick={() => {
+                setSearchQuery('');
+                setSelectedCategory('');
+              }}
+              className="btn btn-primary px-4 py-2 text-sm"
             >
               Clear filters
             </button>
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {skills.map((skill) => (
             <Link key={skill.id} href={`/skills/${skill.id}`} className="group block">
-              <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:border-blue-200 transition-all duration-200 h-full flex flex-col">
+              <div className="card card-hover flex h-full flex-col overflow-hidden">
                 {/* Cover image */}
-                <div className="relative h-44 bg-gradient-to-br from-blue-50 to-indigo-100 overflow-hidden">
+                <div className="relative h-44 overflow-hidden bg-gradient-to-br from-[var(--accent-soft)] to-[var(--accent-2-soft)]">
                   {skill.coverImageUrl ? (
                     <img
                       src={skill.coverImageUrl}
                       alt={skill.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <span className="text-5xl font-bold text-blue-200 select-none">
+                    <div className="flex h-full w-full items-center justify-center">
+                      <span className="select-none text-5xl font-bold text-accent/30">
                         {skill.title[0]?.toUpperCase()}
                       </span>
                     </div>
                   )}
                   {skill.category && (
-                    <span className="absolute top-2 left-2 px-2 py-0.5 bg-white/90 backdrop-blur-sm text-blue-700 text-xs font-semibold rounded-full border border-blue-100">
+                    <span className="badge absolute left-2 top-2 border border-line bg-surface/90 px-2 py-0.5 text-xs font-semibold text-accent backdrop-blur-sm">
                       {skill.category.name}
                     </span>
                   )}
                 </div>
 
                 {/* Content */}
-                <div className="p-4 flex flex-col flex-1">
-                  <h3 className="font-semibold text-gray-900 text-sm leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors">
+                <div className="flex flex-1 flex-col p-4">
+                  <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-content transition-colors group-hover:text-accent">
                     {skill.title}
                   </h3>
                   {skill.description && (
-                    <p className="text-xs text-gray-500 mt-1.5 line-clamp-2 leading-relaxed flex-1">
+                    <p className="mt-1.5 line-clamp-2 flex-1 text-xs leading-relaxed text-muted">
                       {skill.description}
                     </p>
                   )}
 
-                  <div className="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between">
-                    <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                      <div className="w-5 h-5 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white font-bold text-[10px]">
+                  <div className="mt-3 flex items-center justify-between border-t border-line pt-3">
+                    <div className="flex items-center gap-1.5 text-xs text-muted">
+                      <div className="brand-mark flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold text-on-accent">
                         {(skill.user?.displayName || skill.user?.username || 'U')[0].toUpperCase()}
                       </div>
-                      <span className="truncate max-w-[80px]">
+                      <span className="max-w-[80px] truncate">
                         {skill.user?.displayName || skill.user?.username || 'Unknown'}
                       </span>
                     </div>
-                    <span className="text-xs font-semibold text-blue-600 group-hover:underline">
-                      View →
-                    </span>
+                    <span className="text-xs font-semibold text-accent group-hover:underline">View →</span>
                   </div>
                 </div>
               </div>
