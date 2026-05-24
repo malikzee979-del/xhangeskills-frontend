@@ -1,0 +1,15 @@
+services:
+  frontend:
+    build: .
+
+    restart: unless-stopped
+
+    env_file:
+      - .env.local
+
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:1337
+      NODE_ENV: production
+
+    ports:
+      - "3000:3000"
