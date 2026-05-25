@@ -79,6 +79,10 @@ export default function ProfilePage() {
       setUploading(true);
       setError(null);
       const url = await uploadService.uploadFile(file);
+      if (!url) {
+        setError('Failed to upload image');
+        return;
+      }
       const avatarStorage = localStorage.getItem('rememberMe') === 'true' ? localStorage : sessionStorage;
       avatarStorage.setItem('userAvatar', url);
       setEditData((prev: any) => ({ ...prev, profilePicUrl: url }));

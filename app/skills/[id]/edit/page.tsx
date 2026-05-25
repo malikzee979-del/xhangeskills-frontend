@@ -130,6 +130,10 @@ export default function EditSkillPage({ params }: { params: Promise<{ id: string
       reader.readAsDataURL(file);
 
       const imageUrl = await uploadService.uploadFile(file);
+      if (!imageUrl) {
+        setError('Failed to upload image');
+        return;
+      }
       setFormData({ ...formData, coverImageUrl: imageUrl });
     } catch (err: any) {
       const displayError = formatErrorForDisplay(err, 'Failed to upload image');

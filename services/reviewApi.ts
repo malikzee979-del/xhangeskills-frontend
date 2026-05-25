@@ -49,4 +49,9 @@ export const reviewApi = {
   async delete(id: string) {
     return safeRequest(apiClient.delete(`/reviews/${id}`));
   },
+
+  // Get my reviews (received and given)
+  async getMyReviews() {
+    return safeRequest(apiClient.get('/reviews/me', { params: { populate: '*' } }));
+  },
 };
