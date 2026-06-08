@@ -8,15 +8,15 @@ services:
       - .env.local
 
     environment:
-      NEXT_PUBLIC_API_URL: http://backend:1337
+      NEXT_PUBLIC_API_URL: http://ec2-54-169-199-197.ap-southeast-1.compute.amazonaws.com:1337
       NODE_ENV: production
 
     ports:
       - "3000:3000"
 
     networks:
-      - backend_default
+      - default
 
 networks:
-  backend_default:
-    external: true
+  default:
+    driver: bridge
